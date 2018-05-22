@@ -37,9 +37,11 @@ export class TodoComponent implements OnInit {
 
   updateText() {
     if (this.textField.valid && this.editing) {
-      const id = this.todo.id;
       const newText: string = this.textField.value;
-      const action = new TodoActions.UpdateAction(id, newText.trim());
+      const action = new TodoActions.UpdateAction({
+        ...this.todo,
+        text: newText
+      });
       this.store.dispatch(action);
       this.editing = false;
     }

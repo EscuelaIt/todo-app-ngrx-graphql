@@ -5,14 +5,11 @@ const initialState: Todo[] = [];
 
 export function TodosReducer(state: Todo[] = initialState, action: TodoActions.TodoActionType) {
   switch (action.type) {
-    case TodoActions.ADD_TODO: {
+    case TodoActions.ADD_TODO_SUCCESS: {
+      const newTask = action.todo;
       return [
         ...state,
-        {
-          id: action.id,
-          text: action.text,
-          completed: false
-        }
+        newTask
       ];
     }
     case TodoActions.POPULATE_TODOS: {
@@ -30,15 +27,16 @@ export function TodosReducer(state: Todo[] = initialState, action: TodoActions.T
         }
       });
     }
-    case TodoActions.DELETE_TODO: {
+    case TodoActions.DELETE_TODO_SUCCESS: {
       return state.filter(todo => action.id !== todo.id );
     }
-    case TodoActions.UPDATE_TODO: {
+    case TodoActions.UPDATE_TODO:
+    case TodoActions.UPDATE_TODO_SUCCESS: {
+      const updateTodo = action.todo;
       return state.map(todo => {
-        if (action.id === todo.id) {
+        if (updateTodo.id === todo.id) {
           return {
-            ...todo,
-            text: action.text
+            ...updateTodo
           };
         }else {
           return todo;
